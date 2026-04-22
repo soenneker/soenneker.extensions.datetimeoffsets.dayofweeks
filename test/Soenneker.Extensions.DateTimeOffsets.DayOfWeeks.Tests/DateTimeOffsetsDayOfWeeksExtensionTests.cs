@@ -1,11 +1,10 @@
-﻿using Soenneker.Tests.Unit;
-using Xunit;
+using Soenneker.Tests.Unit;
 
 namespace Soenneker.Extensions.DateTimeOffsets.DayOfWeeks.Tests;
 
 public sealed class DateTimeOffsetsDayOfWeeksExtensionTests : UnitTest
 {
-    [Fact]
+    [Test]
     public void Default()
     {
 
