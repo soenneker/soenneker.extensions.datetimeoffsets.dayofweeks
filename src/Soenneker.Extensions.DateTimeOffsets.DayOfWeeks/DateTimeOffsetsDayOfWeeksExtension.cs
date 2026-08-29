@@ -14,6 +14,7 @@ public static class DateTimeOffsetsDayOfWeeksExtension
     /// Returns the previous occurrence of <paramref name="dayOfWeek"/> relative to <paramref name="dateTimeOffset"/>.
     /// The result is always strictly in the past (never the same day).
     /// </summary>
+    /// <returns>The previous occurrence of <paramref name="dayOfWeek"/> relative to <paramref name="dateTimeOffset"/>. The result is always strictly in the past (never the same day).</returns>
     [Pure]
     public static DateTimeOffset ToPreviousDayOfWeek(this DateTimeOffset dateTimeOffset, DayOfWeek dayOfWeek)
     {
@@ -27,6 +28,7 @@ public static class DateTimeOffsetsDayOfWeeksExtension
     /// Returns the next occurrence of <paramref name="dayOfWeek"/> relative to <paramref name="dateTimeOffset"/>.
     /// The result is always strictly in the future (never the same day).
     /// </summary>
+    /// <returns>The next occurrence of <paramref name="dayOfWeek"/> relative to <paramref name="dateTimeOffset"/>. The result is always strictly in the future (never the same day).</returns>
     [Pure]
     public static DateTimeOffset ToNextDayOfWeek(this DateTimeOffset dateTimeOffset, DayOfWeek dayOfWeek)
     {
@@ -39,6 +41,7 @@ public static class DateTimeOffsetsDayOfWeeksExtension
     /// <summary>
     /// Returns the start of day (00:00) for the previous occurrence of <paramref name="dayOfWeek"/> relative to <paramref name="dateTimeOffset"/>.
     /// </summary>
+    /// <returns>The start of day (00:00) for the previous occurrence of <paramref name="dayOfWeek"/> relative to <paramref name="dateTimeOffset"/>.</returns>
     [Pure]
     public static DateTimeOffset ToStartOfPreviousDayOfWeek(this DateTimeOffset dateTimeOffset, DayOfWeek dayOfWeek) =>
         dateTimeOffset.ToPreviousDayOfWeek(dayOfWeek)
@@ -47,6 +50,7 @@ public static class DateTimeOffsetsDayOfWeeksExtension
     /// <summary>
     /// Returns the start of day (00:00) for the next occurrence of <paramref name="dayOfWeek"/> relative to <paramref name="dateTimeOffset"/>.
     /// </summary>
+    /// <returns>The start of day (00:00) for the next occurrence of <paramref name="dayOfWeek"/> relative to <paramref name="dateTimeOffset"/>.</returns>
     [Pure]
     public static DateTimeOffset ToStartOfNextDayOfWeek(this DateTimeOffset dateTimeOffset, DayOfWeek dayOfWeek) =>
         dateTimeOffset.ToNextDayOfWeek(dayOfWeek)
@@ -55,6 +59,7 @@ public static class DateTimeOffsetsDayOfWeeksExtension
     /// <summary>
     /// Returns the end of day (one tick before next day) for the previous occurrence of <paramref name="dayOfWeek"/> relative to <paramref name="dateTimeOffset"/>.
     /// </summary>
+    /// <returns>The end of day (one tick before next day) for the previous occurrence of <paramref name="dayOfWeek"/> relative to <paramref name="dateTimeOffset"/>.</returns>
     [Pure]
     public static DateTimeOffset ToEndOfPreviousDayOfWeek(this DateTimeOffset dateTimeOffset, DayOfWeek dayOfWeek) =>
         dateTimeOffset.ToPreviousDayOfWeek(dayOfWeek)
@@ -63,6 +68,7 @@ public static class DateTimeOffsetsDayOfWeeksExtension
     /// <summary>
     /// Returns the end of day (one tick before next day) for the next occurrence of <paramref name="dayOfWeek"/> relative to <paramref name="dateTimeOffset"/>.
     /// </summary>
+    /// <returns>The end of day (one tick before next day) for the next occurrence of <paramref name="dayOfWeek"/> relative to <paramref name="dateTimeOffset"/>.</returns>
     [Pure]
     public static DateTimeOffset ToEndOfNextDayOfWeek(this DateTimeOffset dateTimeOffset, DayOfWeek dayOfWeek) =>
         dateTimeOffset.ToNextDayOfWeek(dayOfWeek)
@@ -72,6 +78,7 @@ public static class DateTimeOffsetsDayOfWeeksExtension
     /// Computes the UTC instant corresponding to the start of the previous occurrence of <paramref name="dayOfWeek"/>
     /// in <paramref name="tz"/>, relative to the instant <paramref name="utcInstant"/>.
     /// </summary>
+    /// <returns>Computes the UTC instant corresponding to the start of the previous occurrence of <paramref name="dayOfWeek"/> in <paramref name="tz"/>, relative to the instant <paramref name="utcInstant"/>.</returns>
     [Pure]
     public static DateTimeOffset ToStartOfPreviousTzDayOfWeek(this DateTimeOffset utcInstant, DayOfWeek dayOfWeek, TimeZoneInfo tz) =>
         ToStartOfTzDayOfWeekCore(utcInstant, dayOfWeek, tz, next: false);
@@ -80,6 +87,7 @@ public static class DateTimeOffsetsDayOfWeeksExtension
     /// Computes the UTC instant corresponding to the start of the next occurrence of <paramref name="dayOfWeek"/>
     /// in <paramref name="tz"/>, relative to the instant <paramref name="utcInstant"/>.
     /// </summary>
+    /// <returns>Computes the UTC instant corresponding to the start of the next occurrence of <paramref name="dayOfWeek"/> in <paramref name="tz"/>, relative to the instant <paramref name="utcInstant"/>.</returns>
     [Pure]
     public static DateTimeOffset ToStartOfNextTzDayOfWeek(this DateTimeOffset utcInstant, DayOfWeek dayOfWeek, TimeZoneInfo tz) =>
         ToStartOfTzDayOfWeekCore(utcInstant, dayOfWeek, tz, next: true);
@@ -88,6 +96,7 @@ public static class DateTimeOffsetsDayOfWeeksExtension
     /// Computes the UTC instant corresponding to the end of the previous occurrence of <paramref name="dayOfWeek"/>
     /// in <paramref name="tz"/>, relative to the instant <paramref name="utcInstant"/>.
     /// </summary>
+    /// <returns>Computes the UTC instant corresponding to the end of the previous occurrence of <paramref name="dayOfWeek"/> in <paramref name="tz"/>, relative to the instant <paramref name="utcInstant"/>.</returns>
     [Pure]
     public static DateTimeOffset ToEndOfPreviousTzDayOfWeek(this DateTimeOffset utcInstant, DayOfWeek dayOfWeek, TimeZoneInfo tz) =>
         ToStartOfTzDayOfWeekCore(utcInstant, dayOfWeek, tz, next: false)
@@ -98,6 +107,7 @@ public static class DateTimeOffsetsDayOfWeeksExtension
     /// Computes the UTC instant corresponding to the end of the next occurrence of <paramref name="dayOfWeek"/>
     /// in <paramref name="tz"/>, relative to the instant <paramref name="utcInstant"/>.
     /// </summary>
+    /// <returns>Computes the UTC instant corresponding to the end of the next occurrence of <paramref name="dayOfWeek"/> in <paramref name="tz"/>, relative to the instant <paramref name="utcInstant"/>.</returns>
     [Pure]
     public static DateTimeOffset ToEndOfNextTzDayOfWeek(this DateTimeOffset utcInstant, DayOfWeek dayOfWeek, TimeZoneInfo tz) =>
         ToStartOfTzDayOfWeekCore(utcInstant, dayOfWeek, tz, next: true)
