@@ -4,7 +4,8 @@
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.extensions.datetimeoffsets.dayofweeks/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.extensions.datetimeoffsets.dayofweeks/actions/workflows/codeql.yml)
 
 # ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.Extensions.DateTimeOffsets.DayOfWeeks
-A collection of helpful DateTimeOffset DayOfWeek extension methods.
+
+Moves a `DateTimeOffset` to the strictly previous or next occurrence of a weekday, with optional day boundaries and time-zone-aware UTC results.
 
 ## Installation
 
@@ -12,24 +13,41 @@ A collection of helpful DateTimeOffset DayOfWeek extension methods.
 dotnet add package Soenneker.Extensions.DateTimeOffsets.DayOfWeeks
 ```
 
-## Quick start
+## Navigate using the stored offset
 
 ```csharp
 using Soenneker.Extensions.DateTimeOffsets.DayOfWeeks;
 
-DateTimeOffset dateTimeOffset = DateTimeOffset.UtcNow;
-var result = dateTimeOffset.ToPreviousDayOfWeek(dayOfWeek);
+DateTimeOffset monday = new(2026, 8, 31, 15, 30, 0, TimeSpan.FromHours(-4));
+
+DateTimeOffset previousFriday = monday.ToPreviousDayOfWeek(DayOfWeek.Friday);
+DateTimeOffset nextMonday = monday.ToNextDayOfWeek(DayOfWeek.Monday);
+DateTimeOffset previousFridayStart = monday.ToStartOfPreviousDayOfWeek(DayOfWeek.Friday);
+DateTimeOffset nextFridayEnd = monday.ToEndOfNextDayOfWeek(DayOfWeek.Friday);
 ```
 
-## Common operations
+Navigation is strict. If the input is already on the requested weekday, the result is seven days away.
 
-- `ToPreviousDayOfWeek()` - Returns the previous occurrence of `dayOfWeek` relative to `dateTimeOffset`. The result is always strictly in the past (never the same day).
-- `ToNextDayOfWeek()` - Returns the next occurrence of `dayOfWeek` relative to `dateTimeOffset`. The result is always strictly in the future (never the same day).
-- `ToStartOfPreviousDayOfWeek()` - Returns the start of day (00:00) for the previous occurrence of `dayOfWeek` relative to `dateTimeOffset`.
-- `ToStartOfNextDayOfWeek()` - Returns the start of day (00:00) for the next occurrence of `dayOfWeek` relative to `dateTimeOffset`.
-- `ToEndOfPreviousDayOfWeek()` - Returns the end of day (one tick before next day) for the previous occurrence of `dayOfWeek` relative to `dateTimeOffset`.
-- `ToEndOfNextDayOfWeek()` - Returns the end of day (one tick before next day) for the next occurrence of `dayOfWeek` relative to `dateTimeOffset`.
-- `ToStartOfPreviousTzDayOfWeek()` - Computes the UTC instant corresponding to the start of the previous occurrence of `dayOfWeek` in `tz`, relative to the instant `utcInstant`.
-- `ToStartOfNextTzDayOfWeek()` - Computes the UTC instant corresponding to the start of the next occurrence of `dayOfWeek` in `tz`, relative to the instant `utcInstant`.
-- `ToEndOfPreviousTzDayOfWeek()` - Computes the UTC instant corresponding to the end of the previous occurrence of `dayOfWeek` in `tz`, relative to the instant `utcInstant`.
-- `ToEndOfNextTzDayOfWeek()` - Computes the UTC instant corresponding to the end of the next occurrence of `dayOfWeek` in `tz`, relative to the instant `utcInstant`.
+`ToPreviousDayOfWeek()` and `ToNextDayOfWeek()` preserve the input time and offset. Start/end variants reset the stored clock fields to midnight or one tick before the following date while preserving that offset. These methods do not apply a named time zone's DST rules.
+
+## Navigate in a time zone
+
+```csharp
+TimeZoneInfo eastern = TimeZoneInfo.FindSystemTimeZoneById("America/New_York");
+DateTimeOffset instant = new(2026, 8, 29, 18, 0, 0, TimeSpan.Zero);
+
+DateTimeOffset nextMondayStartUtc =
+    instant.ToStartOfNextTzDayOfWeek(DayOfWeek.Monday, eastern);
+
+DateTimeOffset previousFridayEndUtc =
+    instant.ToEndOfPreviousTzDayOfWeek(DayOfWeek.Friday, eastern);
+```
+
+The time-zone variants determine the instant's local date, select the strictly previous or next matching weekday, and return the boundary with offset `+00:00`:
+
+- `ToStartOfPreviousTzDayOfWeek()`
+- `ToStartOfNextTzDayOfWeek()`
+- `ToEndOfPreviousTzDayOfWeek()`
+- `ToEndOfNextTzDayOfWeek()`
+
+Starts resolve local midnight using the zone's rules. A midnight in a gap advances to the first valid local time; an ambiguous midnight selects the earlier UTC instant. Ends are one tick before the next valid local day boundary, so 23-hour and 25-hour days are handled without assuming a fixed 24-hour duration.

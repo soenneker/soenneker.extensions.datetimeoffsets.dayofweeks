@@ -100,8 +100,7 @@ public static class DateTimeOffsetsDayOfWeeksExtension
     [Pure]
     public static DateTimeOffset ToEndOfPreviousTzDayOfWeek(this DateTimeOffset utcInstant, DayOfWeek dayOfWeek, TimeZoneInfo tz) =>
         ToStartOfTzDayOfWeekCore(utcInstant, dayOfWeek, tz, next: false)
-            .AddDays(1)
-            .AddTicks(-1);
+            .ToEndOfTzDay(tz);
 
     /// <summary>
     /// Computes the UTC instant corresponding to the end of the next occurrence of <paramref name="dayOfWeek"/>
@@ -111,8 +110,7 @@ public static class DateTimeOffsetsDayOfWeeksExtension
     [Pure]
     public static DateTimeOffset ToEndOfNextTzDayOfWeek(this DateTimeOffset utcInstant, DayOfWeek dayOfWeek, TimeZoneInfo tz) =>
         ToStartOfTzDayOfWeekCore(utcInstant, dayOfWeek, tz, next: true)
-            .AddDays(1)
-            .AddTicks(-1);
+            .ToEndOfTzDay(tz);
 
     [Pure]
     private static DateTimeOffset ToStartOfTzDayOfWeekCore(DateTimeOffset utcInstant, DayOfWeek targetDay, TimeZoneInfo tz, bool next)
