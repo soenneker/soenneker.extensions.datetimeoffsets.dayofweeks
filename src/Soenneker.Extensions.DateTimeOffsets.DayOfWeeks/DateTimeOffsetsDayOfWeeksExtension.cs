@@ -132,7 +132,7 @@ public static class DateTimeOffsetsDayOfWeeksExtension
             deltaDays = -deltaDays;
 
         // Local midnight (wall-clock) for that target date
-        DateTime localMidnight = new DateTime(local.Year, local.Month, local.Day, 0, 0, 0, DateTimeKind.Unspecified).AddDays(deltaDays);
+        DateTime localMidnight = local.Date.AddDays(deltaDays);
 
         // Map wall-clock -> UTC robustly
         DateTime utcStart = ConvertLocalToUtcRobust(localMidnight, tz);
