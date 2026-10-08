@@ -1,13 +1,14 @@
 using System;
 using System.Threading.Tasks;
 using Soenneker.Tests.Unit;
+using System.Threading;
 
 namespace Soenneker.Extensions.DateTimeOffsets.DayOfWeeks.Tests;
 
 public sealed class DateTimeOffsetsDayOfWeeksExtensionTests : UnitTest
 {
     [Test]
-    public async System.Threading.Tasks.ValueTask Same_weekday_moves_seven_days()
+    public async System.Threading.Tasks.ValueTask Same_weekday_moves_seven_days(CancellationToken cancellationToken)
     {
         var monday = new DateTimeOffset(2026, 8, 31, 15, 0, 0, TimeSpan.Zero);
 
@@ -16,7 +17,7 @@ public sealed class DateTimeOffsetsDayOfWeeksExtensionTests : UnitTest
     }
 
     [Test]
-    public async System.Threading.Tasks.ValueTask Time_zone_end_uses_next_local_boundary_across_spring_forward()
+    public async System.Threading.Tasks.ValueTask Time_zone_end_uses_next_local_boundary_across_spring_forward(CancellationToken cancellationToken)
     {
         TimeZoneInfo eastern = TimeZoneInfo.FindSystemTimeZoneById(
             OperatingSystem.IsWindows() ? "Eastern Standard Time" : "America/New_York");
